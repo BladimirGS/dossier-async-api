@@ -31,9 +31,22 @@ services:
       timeout: 5s
       retries: 5
 
+  localstack:
+    image: localstack/localstack:3.0.0
+    container_name: dossier_localstack
+    restart: always
+    ports:
+      - "${LOCALSTACK_PORT:-4566}:4566"
+    environment:
+      - SERVICES=s3
+      - AWS_DEFAULT_REGION=${AWS_REGION:-us-east-1}
+    volumes:
+      - localstack_data:/var/lib/localstack
+
 volumes:
   postgres_data:
   redis_data:
+  localstack_data:
 
 networks:
   default:
